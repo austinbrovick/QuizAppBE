@@ -1,0 +1,17 @@
+{
+    "QuizTable": [
+      {
+        "PutRequest": {
+          "Item":
+          {
+            "id": {
+              "S": "f95c1b084fd111eb85a9acde48001122"
+            },
+            "category": {
+              "S": "sports"
+            }
+          }
+        }
+      }
+    ]
+  }
