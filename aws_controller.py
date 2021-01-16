@@ -1,14 +1,34 @@
 import boto3
 import uuid
-
+from boto3.dynamodb.conditions import Key, Attr
+import random 
 
 dynamo_client = boto3.client('dynamodb')
 
 
-def get_items():
-    return dynamo_client.scan(
-        TableName='QuizTable'
-    )
+def get_items(category=None):
+    # return dynamo_client.scan(TableName='QuizTable')
+    questions = None
+    print(category)
+    if category: 
+        questions = dynamo_client.scan(
+            TableName='QuizTable',
+            FilterExpression='category = :cat',
+            ExpressionAttributeValues={
+                ":cat": {
+                    "S": category
+                }
+            }
+        )
+    else:
+        questions = dynamo_client.scan(
+            TableName='QuizTable',
+        )
+
+    nums = random.sample(range(1, len(questions)), 10)
+    result = [questions[x] for x in nums]
+    return result
+
 
 
 def create_quiz_question(question, incorrect_answers, correct_answer, category):
@@ -56,8 +76,6 @@ def get_question(id):
     )
 
 # format with Shift + Option + F
-
-
 def batch_create_questions(questions):
     put_requests = [
         {

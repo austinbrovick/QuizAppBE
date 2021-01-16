@@ -10,8 +10,7 @@ class Quiz(Resource):
 
     def get(self):
         category = request.args.get('category')
-        temp = jsonify(aws_controller.get_items())
-        return jsonify(aws_controller.get_items())
+        return jsonify(aws_controller.get_items(category))
 
     def post(self):
         data = request.json
